@@ -1,0 +1,96 @@
+
+serial-print.bin:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 6c 00 	call	0xd8	; 0xd8 <main>
+  78:	0c 94 76 00 	jmp	0xec	; 0xec <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <uart_init>:
+  80:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+  84:	10 92 c0 00 	sts	0x00C0, r1	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+  88:	10 92 c6 00 	sts	0x00C6, r1	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+  8c:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+  90:	87 e6       	ldi	r24, 0x67	; 103
+  92:	90 e0       	ldi	r25, 0x00	; 0
+  94:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+  98:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+  9c:	88 e0       	ldi	r24, 0x08	; 8
+  9e:	90 e0       	ldi	r25, 0x00	; 0
+  a0:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+  a4:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+  a8:	86 e0       	ldi	r24, 0x06	; 6
+  aa:	90 e0       	ldi	r25, 0x00	; 0
+  ac:	90 93 c3 00 	sts	0x00C3, r25	; 0x8000c3 <__TEXT_REGION_LENGTH__+0x7f80c3>
+  b0:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+  b4:	08 95       	ret
+
+000000b6 <uart_transmit>:
+  b6:	20 91 c0 00 	lds	r18, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+  ba:	30 91 c1 00 	lds	r19, 0x00C1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+  be:	20 72       	andi	r18, 0x20	; 32
+  c0:	33 27       	eor	r19, r19
+  c2:	21 15       	cp	r18, r1
+  c4:	31 05       	cpc	r19, r1
+  c6:	e9 f3       	breq	.-6      	; 0xc2 <uart_transmit+0xc>
+  c8:	08 2e       	mov	r0, r24
+  ca:	00 0c       	add	r0, r0
+  cc:	99 0b       	sbc	r25, r25
+  ce:	90 93 c7 00 	sts	0x00C7, r25	; 0x8000c7 <__TEXT_REGION_LENGTH__+0x7f80c7>
+  d2:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+  d6:	08 95       	ret
+
+000000d8 <main>:
+  d8:	0e 94 40 00 	call	0x80	; 0x80 <uart_init>
+  dc:	81 e4       	ldi	r24, 0x41	; 65
+  de:	0e 94 5b 00 	call	0xb6	; 0xb6 <uart_transmit>
+  e2:	88 ee       	ldi	r24, 0xE8	; 232
+  e4:	93 e0       	ldi	r25, 0x03	; 3
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f1 f7       	brne	.-4      	; 0xe6 <main+0xe>
+  ea:	f8 cf       	rjmp	.-16     	; 0xdc <main+0x4>
+
+000000ec <_exit>:
+  ec:	f8 94       	cli
+
+000000ee <__stop_program>:
+  ee:	ff cf       	rjmp	.-2      	; 0xee <__stop_program>

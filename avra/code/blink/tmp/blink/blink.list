@@ -1,0 +1,50 @@
+
+AVRA   Ver. 1.4.2 blink.asm Fri Jan 24 19:42:29 2025
+
+
+          .list
+         
+          RESET:
+C:000000 940c 0002 		jmp 	main
+         
+          main:
+C:000002 ef3f      		ldi 	r19, 0xff
+C:000003 b934      		out 	DDRB, r19
+           loop:
+C:000004 b935       		out		PORTB, r19
+C:000005 940e 000b  		call	delay
+C:000007 b805       		out		PORTB, r0
+C:000008 940e 000b 		call	delay
+         
+C:00000a cff9      		rjmp 	loop
+         
+          delay:
+C:00000b e120      		ldi		r18, 0x10
+           loop3:
+C:00000c ef1f       		ldi		r17, 0xff
+           loop2:
+C:00000d ef0f       		ldi		r16, 0xff
+           loop1:
+C:00000e 950a       		dec		r16
+C:00000f 3000      		cpi		r16, 0
+C:000010 f7e9       		brne	loop1
+         
+C:000011 951a       		dec		r17
+C:000012 3010      		cpi		r17, 0
+C:000013 f7c9       		brne	loop2
+         
+C:000014 952a       		dec		r18
+C:000015 3020      		cpi		r18, 0
+C:000016 f7a9       		brne	loop3
+         
+C:000017 9508       		ret
+Used memory blocks:
+   code      :  Start = 0x0000, End = 0x0017, Length = 0x0018 (24 words), Overlap=N
+
+
+Segment usage:
+   Code      :        24 words (48 bytes)
+   Data      :         0 bytes
+   EEPROM    :         0 bytes
+
+Assembly completed with no errors.
