@@ -14,7 +14,7 @@ $(hex): $(asm)
 	@mv $(name).obj tmp/$(name)/$(name).obj
 
 upload: $(hex)
-	make -f ${home}/atmega/lib/make/upload name=$(name)
+	make -f ${HOME}/atmega/lib/make/upload name=$(name)
 
 clean:
 	rm -rf tmp

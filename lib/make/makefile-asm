@@ -1,8 +1,12 @@
 name = ""
 asm = $(name).asm
-obj = tmp/$(name)/$(name).o
 elf = tmp/$(name)/$(name).elf
 hex = tmp/$(name)/$(name).hex
+list = tmp/$(name)/$(name).list
+
+
+as_flags = -Xassembler -I -Xassembler ${HOME}/atmega/lib/gcc-avr -Xassembler -alsm=$(list)
+ld_flags = -Xlinker -e -Xlinker 0 -Xlinker -S # -Xlinker -x -Xlinker -s
 
 # Variables
 mcu = atmega328p
@@ -12,14 +16,16 @@ all: $(hex)
 
 $(elf): $(asm)
 	@mkdir -p tmp/$(name)
-	avr-as -mmcu=$(mcu) -I ${HOME}/atmega/lib/gcc-avr -o $(obj) $(asm)
-	avr-ld -e RESET -nostartfiles -o $(elf) $(obj)
+	avr-gcc -nostartfiles $(as_flags) $(ld_flags) -x assembler-with-cpp -mmcu=$(mcu) -o $(elf) $(asm)
+
+#	avr-as -mmcu=$(mcu) -I ${HOME}/atmega/lib/gcc-avr -o $(obj) $(asm)
+#	avr-ld -e RESET -nostartfiles -o $(elf) $(obj)
 
 $(hex): $(elf)
-	avr-objcopy -O ihex $(elf) $(hex)
+	avr-objcopy -j .text -j .data -O ihex $(elf) $(hex)
 
 upload: $(hex)
-	make -f ${home}/atmega/lib/make/upload name=$(name)
+	make -f ${HOME}/atmega/lib/make/upload name=$(name)
 
 clean:
 	rm -rf tmp
@@ -27,3 +33,5 @@ clean:
 dump: $(hex)
 	@avr-objdump -D $(elf)
 
+list: $(hex)
+	@cat $(list) | pager
