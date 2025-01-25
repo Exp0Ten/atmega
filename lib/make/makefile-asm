@@ -1,0 +1,29 @@
+name = ""
+asm = $(name).asm
+obj = tmp/$(name)/$(name).o
+elf = tmp/$(name)/$(name).elf
+hex = tmp/$(name)/$(name).hex
+
+# Variables
+mcu = atmega328p
+
+all: $(hex)
+	@echo "ok"
+
+$(elf): $(asm)
+	@mkdir -p tmp/$(name)
+	avr-as -mmcu=$(mcu) -I ${HOME}/atmega/lib/gcc-avr -o $(obj) $(asm)
+	avr-ld -e RESET -nostartfiles -o $(elf) $(obj)
+
+$(hex): $(elf)
+	avr-objcopy -O ihex $(elf) $(hex)
+
+upload: $(hex)
+	make -f ${home}/atmega/lib/make/upload name=$(name)
+
+clean:
+	rm -rf tmp
+
+dump: $(hex)
+	@avr-objdump -D $(elf)
+

@@ -1,0 +1,9 @@
+hex = tmp/$(name)/$(name).hex
+
+AD_dev = m328p
+AD_prog = arduino
+AD_baud = 115200
+AD_port	= /dev/ttyUSB0
+
+all:
+	"avrdude" -c $(AD_prog) -b $(AD_baud) -p $(AD_dev) -P $(AD_port) -U flash:w:$(hex):i

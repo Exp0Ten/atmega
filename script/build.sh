@@ -1,10 +1,10 @@
-echo hello
+echo build-atmega
 unset build_path
 
 add_build() {
-    local dir=$1
+    local root=$1
     local path=$2
-    build_path+=($dir $path)
+    build_path+=($root $path)
 }
 
 root_lookup() {
