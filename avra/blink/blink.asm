@@ -1,7 +1,7 @@
 .nolist
 .include "atmega328p.inc"
 .list
-
+	.global RESET
 RESET:
 		jmp 	main
 
@@ -17,11 +17,11 @@ main:
 		rjmp 	loop
 
 delay:
-		ldi		r18, 0x10
+		ldi		r18, 0x10	; counter 1
  loop3:
- 		ldi		r17, 0xff
+ 		ldi		r17, 0xff	; counter 2
  loop2:
- 		ldi		r16, 0xff
+ 		ldi		r16, 0xff	; counter 3
  loop1:
  		dec		r16
 		cpi		r16, 0

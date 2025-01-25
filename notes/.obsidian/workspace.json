@@ -1,0 +1,173 @@
+{
+  "main": {
+    "id": "716c1dd16fb6765b",
+    "type": "split",
+    "children": [
+      {
+        "id": "4b3f4ca769b8c4f6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "031412bd7eed8c5b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "assembly.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "assembly"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "673ab7dd183ccc79",
+    "type": "split",
+    "children": [
+      {
+        "id": "58c10cb4e3835073",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7f38d16e940af8a8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "1888dba9cc7d5975",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 317.5
+  },
+  "right": {
+    "id": "9f20626e890cc6df",
+    "type": "split",
+    "children": [
+      {
+        "id": "25ddc37371ada543",
+        "type": "tabs",
+        "dimension": 57.88834951456311,
+        "children": [
+          {
+            "id": "e35d830992aa79d9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      },
+      {
+        "id": "84c4bec7b73427bd",
+        "type": "tabs",
+        "dimension": 42.11165048543689,
+        "children": [
+          {
+            "id": "d2317c6938837535",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "assembly.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from assembly"
+            }
+          },
+          {
+            "id": "50b0303b32ae288c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "assembly.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for assembly"
+            }
+          },
+          {
+            "id": "605e602599165248",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": false
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 222.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "031412bd7eed8c5b",
+  "lastOpenFiles": [
+    "directives.md",
+    "tree.md",
+    "makefiles.md",
+    "assembly.md",
+    "assembly",
+    "env-info.md",
+    "doc/atmega328p.pdf",
+    "2025-01-25.md",
+    "Untitled.canvas"
+  ]
+}
