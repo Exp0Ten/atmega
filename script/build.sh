@@ -10,7 +10,7 @@ add_build() {
 root_lookup() {
     for ((i=0; i<${#build_path[*]}; i+=2)); do
         if [[ $(pwd | grep ${build_path[i]}) != '' ]]; then
-            ${build_path[i+1]}
+            ${build_path[i+1]} $@
             exit 0
         fi
     done
@@ -27,4 +27,4 @@ add_build $HOME/atmega/avra $HOME/atmega/script/avra.sh
 add_build $HOME/atmega/asm $HOME/atmega/script/asm.sh
 add_build $HOME/atmega/code $HOME/atmega/script/code.sh
 
-root_lookup
+root_lookup $@

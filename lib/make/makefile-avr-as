@@ -5,7 +5,7 @@ DIR = tmp/$(NAME)
 # Variables
 MCU = atmega328p
 MCU_PROG = m328p
-LIB_DIR = ${HOME}/atmega/lib/
+LIB_DIR = ${HOME}/atmega/lib/gcc-avr
 AVRDUDE_PROGRAMMER = arduino
 AVRDUDE_PORT = /dev/ttyUSB0
 AVRDUDE_BAUDRATE = 115200
