@@ -16,7 +16,7 @@ all: $(hex)
 
 $(hex): $(asm)
 	@mkdir tmp/$(name) -p
-	avra -I /home/azi/atmega/asm/lib -l $(list) -m $(map) -o $(hex) -e $(eep) $(asm)
+	avra -I ${HOME}/atmega/lib/avra -l $(list) -m $(map) -o $(hex) -e $(eep) $(asm)
 	@mv $(name).obj tmp/$(name)/$(name).obj
 
 clean:

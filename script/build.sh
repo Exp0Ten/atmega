@@ -23,8 +23,8 @@ root_lookup() {
 }
 
 
-add_build /home/azi/atmega/avra /home/azi/atmega/script/avra.sh
-add_build /home/azi/atmega/asm /home/azi/atmega/script/asm.sh
-add_build /home/azi/atmega/code /home/azi/atmega/script/code.sh
+add_build $HOME/atmega/avra $HOME/atmega/script/avra.sh
+add_build $HOME/atmega/asm $HOME/atmega/script/asm.sh
+add_build $HOME/atmega/code $HOME/atmega/script/code.sh
 
 root_lookup
