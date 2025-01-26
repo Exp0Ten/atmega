@@ -1,10 +1,7 @@
 
-AVRA   Ver. 1.4.2 test.asm Fri Jan 24 20:48:12 2025
+AVRA   Ver. 1.4.2 test.asm Sun Jan 26 13:05:13 2025
 
 
-         ;.device ATmega328P
-         ;.include "vectors.inc"
-         
           .include "m328Pdef.inc"
          ;***** THIS IS A MACHINE GENERATED FILE - DO NOT EDIT ********************
          ;***** Created: 2011-02-09 12:03 ******* Source: ATmega328P.xml **********
@@ -986,33 +983,87 @@ AVRA   Ver. 1.4.2 test.asm Fri Jan 24 20:48:12 2025
          
          ; ***** END OF FILE ******************************************************
           ; ***** END OF FILE ******************************************************
+          .include "init.inc"
+          .equ RESaddr = 0
          
-          	.cseg
+          .macro interrupt
+          	.set a = PC
+          	.org @1
+          		jmp @0
+          	.org a
+          .endm
          
-          .macro stack_i
-          		ldi		r28, high(@0)
-          		ldi		r29, low(@0)
+          .macro rest
+          	.org 0x22
+          		eor 	r0, r0
+          		out		SREG, r0
+          		ldi		r28, low(RAMEND)
+          		ldi		r29, high(RAMEND)
           		out		SPL, r28
           		out		SPH, r29
           .endm
          
-C:000000   +  stack_i RAMEND
-C:000000 e0c8      ldi		r28, high(RAMEND)
-C:000001 efdf      ldi		r29, low(RAMEND)
-C:000002 bfcd      out		SPL, r28
-C:000003 bfde      out		SPH, r29
-         
-          .macro hello
-          .rept 10
-          	ldi r16, 10
+          .macro rest_i
+          	.org 0x22
+          		eor 	r0, r0
+          		out		SREG, r0
+          		ldi		r28, low(@0)
+          		ldi		r29, high(@0)
+          		out		SPL, r28
+          		out		SPH, r29
           .endm
+         
+          
+         
+          	.dseg
+D:000100    counter: .byte 4
+         
+          	.cseg
+C:000000   +  		interrupt RESET, RESaddr
+          .set a = PC
+          .org RESaddr
+C:000000 940c 0000 jmp RESET
+          .org a
+          RESET:
+C:000000   +  		rest 	[0x20]
+          .org 0x22
+C:000022 2400      eor 	r0, r0
+C:000023 be0f      out		SREG, r0
+C:000024 e2c0      ldi		r28, low(0x20)
+C:000025 e0d0      ldi		r29, high(0x20)
+C:000026 bfcd      out		SPL, r28
+C:000027 bfde      out		SPH, r29
+         ;		rest
+C:000028 94f8      		cli
+C:000029 940c 002b 		jmp 	main
+         
+          main:
+C:00002b e0a0      		ldi		r26, low(counter)
+C:00002c e0b1      		ldi		r27, high(counter)		
+         
+C:00002d 9041      		ld 		r4, Z+
+C:00002e 9051      		ld 		r5, Z+
+C:00002f 9061      		ld 		r6, Z+
+C:000030 9071      		ld 		r7, Z+
+         
+         ;		lds		r4, counter
+         ;		lds		r5, counter+1
+         ;		lds		r6, counter+2
+         ;		lds		r7, counter+3
+         
+C:000031 940c 0033 		jmp 	end
+         
+          end:
+C:000033 cfff      		rjmp 	end
 Used memory blocks:
-   code      :  Start = 0x0000, End = 0x0003, Length = 0x0004 (4 words), Overlap=N
+   code      :  Start = 0x0000, End = 0x0001, Length = 0x0002 (2 words), Overlap=N
+   code      :  Start = 0x0022, End = 0x0033, Length = 0x0012 (18 words), Overlap=N
+   data      :  Start = 0x0100, End = 0x0103, Length = 0x0004 (4 bytes), Overlap=N
 
 
 Segment usage:
-   Code      :         4 words (8 bytes)
-   Data      :         0 bytes
+   Code      :        20 words (40 bytes)
+   Data      :         4 bytes
    EEPROM    :         0 bytes
 
 Assembly completed with no errors.

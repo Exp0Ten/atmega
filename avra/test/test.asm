@@ -1,23 +1,32 @@
-;.device ATmega328P
-;.include "vectors.inc"
-
 .include "m328Pdef.inc"
+.include "init.inc"
+
+	.dseg
+counter: .byte 4
 
 	.cseg
+		interrupt RESET, RESaddr
+RESET:
+		rest 	[0x20]
+;		rest
+		cli
+		jmp 	main
 
-.macro stack_i
-		ldi		r28, high(@0)
-		ldi		r29, low(@0)
-		out		SPL, r28
-		out		SPH, r29
-.endm
+main:
+		ldi		r26, low(counter)
+		ldi		r27, high(counter)		
 
-stack_i RAMEND
+		ld 		r4, Z+
+		ld 		r5, Z+
+		ld 		r6, Z+
+		ld 		r7, Z+
 
-.macro hello
-.rep 10
-	ldi r16, 10
-.endr
-.endm
+;		lds		r4, counter
+;		lds		r5, counter+1
+;		lds		r6, counter+2
+;		lds		r7, counter+3
 
-hello
+		jmp 	end
+
+end:
+		rjmp 	end

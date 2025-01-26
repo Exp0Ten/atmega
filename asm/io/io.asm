@@ -1,14 +1,7 @@
-.include "atmega328p.inc"
+#include <avr/io.h>
+#include <defs.h>
+;#define io(sfr) (_SFR_IO_ADDR(sfr))
 
-	.global RESET
 RESET:
 		ldi		r16, 0xff
-		out		DDRB, r16
-
-		sbi		PORTB, PORTB5
-		rjmp main
-
-main:
-		
-loop:
-		rjmp loop
+		out		io(DDRB), r16

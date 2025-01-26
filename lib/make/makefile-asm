@@ -16,7 +16,7 @@ all: $(hex)
 
 $(elf): $(asm)
 	@mkdir -p tmp/$(name)
-	avr-gcc -nostartfiles $(as_flags) $(ld_flags) -x assembler-with-cpp -mmcu=$(mcu) -o $(elf) $(asm)
+	avr-gcc -I ${HOME}/atmega/lib/gcc-avr -nostartfiles $(as_flags) $(ld_flags) -x assembler-with-cpp -mmcu=$(mcu) -o $(elf) $(asm)
 
 #	avr-as -mmcu=$(mcu) -I ${HOME}/atmega/lib/gcc-avr -o $(obj) $(asm)
 #	avr-ld -e RESET -nostartfiles -o $(elf) $(obj)
