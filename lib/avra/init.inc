@@ -2,11 +2,14 @@
 .equ RESaddr = 0
 
 .macro interrupt
+ .nolist
  .ifndef @1_defined
 	.define @1_defined
 	.set a = PC
+ .list
 	.org @1
 		jmp @0
+ .nolist
 	.org a
  .else
  	.error "Already defined @1"
