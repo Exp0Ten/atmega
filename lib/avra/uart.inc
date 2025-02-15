@@ -1,3 +1,10 @@
+.nolist
+.ifndef uart_def
+	.define uart_def
+.else
+	.error "Multiple includes of 'uart.inc'"
+.endif
+
 .ifndef F_CPU
 	.equ F_CPU = 16000000	
 .endif
@@ -14,6 +21,7 @@
 		.set UBRRval = (F_CPU / (16 * BAUD)) - 1
 	.endif
 .endm
+.list
 
 	.cseg
 UART_init:
