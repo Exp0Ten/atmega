@@ -1,24 +1,65 @@
 .nolist
 .include "atmega328p.inc"
-.include "init.inc"
-.equ F_CPU = 16000000
 .list
+.equ F_CPU = 16000000
 
-.equ BAUD 	= 9600
-.equ UBRR  	= (F_CPU / (16 * BAUD)) - 1
+.equ BAUD 	 = 9600
+.equ UBRRval = ((F_CPU / (16 * BAUD)) - 1)
 
-rest
+	.cseg
+	.org 0
+_vectors:
+		jmp RESET
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+		jmp _vectors
+
+	.org 0x40
+RESET:
 		cli
+		eor 	r0, r0
+		out		SREG, r0
+		ldi		r28, low(RAMEND)
+		ldi		r29, high(RAMEND)
+		out		SPL, r28
+		out		SPH, r29
 		jmp 	main
-
 
 UART_init:
 		sts		UCSR0A, r0
 
-		ldi		r16, UBRR >> 8
-		sts		UBRR0H, r16
-		ldi		r16, UBRR
-		sts		UBRR0L, r16
+ 		ldi		r16, (UBRRval >> 8)
+ 		sts		UBRR0H, r16
+ 		ldi		r16, (UBRRval & 0xff)
+ 		sts		UBRR0L, r16
 
 		ldi		r16, (1 << TXEN0) | (1 << RXEN0)
 		sts		UCSR0B, r16
@@ -43,7 +84,7 @@ UART_print:
 		rcall	UART_send
 		rjmp 	UART_print
  UART_print_end:
-		reti
+		ret
 
 UART_recieve:
 		lds		r17, UCSR0A
@@ -56,8 +97,6 @@ UART_recieve:
 main:
 		call	UART_init
 loop:
-		call UART_recieve
-		call UART_send
-		rjmp loop
-end:
-		rjmp	end
+		call 	UART_recieve
+		call 	UART_send
+		rjmp	main

@@ -23,6 +23,10 @@
 .endm
 
 .macro rest_i
+	.cseg
+	.org 0
+		interrupt 0x22, RESaddr
+
 	.org 0x22
 		eor 	r0, r0
 		out		SREG, r0
