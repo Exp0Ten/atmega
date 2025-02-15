@@ -1,4 +1,4 @@
-.include "atmega328p.inc"
+#include <avr/io.h>
 
 .equ F_CPU, 16000000
 .equ BAUD, 9600
@@ -80,6 +80,6 @@ main:
 		jmp 	exit
 
 exit:
-;		cli
+		cli
 _end:
 		rjmp _end

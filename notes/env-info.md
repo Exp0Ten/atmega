@@ -1,5 +1,6 @@
 # Some info about my environment
 A lot of makefiles and other build scripts depend on this and so i find it important to say the bare minimum about the environment I am using.
+
 ### Basic info
  - Intel Amd64 processor
  - Debian Linux

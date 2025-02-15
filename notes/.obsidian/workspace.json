@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "4b3f4ca769b8c4f6",
+        "id": "243c3ce6d3b2ae0b",
         "type": "tabs",
         "children": [
           {
-            "id": "031412bd7eed8c5b",
+            "id": "139e9bb200a4fa0e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "assembly.md",
+                "file": "makefiles.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "assembly"
+              "title": "makefiles"
             }
           }
         ]
@@ -40,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -76,7 +77,7 @@
       {
         "id": "25ddc37371ada543",
         "type": "tabs",
-        "dimension": 57.88834951456311,
+        "dimension": 57.8883495145631,
         "children": [
           {
             "id": "e35d830992aa79d9",
@@ -87,13 +88,25 @@
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
             }
+          },
+          {
+            "id": "8e314c23f5189f5c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "assembly.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of assembly"
+            }
           }
         ]
       },
       {
         "id": "84c4bec7b73427bd",
         "type": "tabs",
-        "dimension": 42.11165048543689,
+        "dimension": 42.1116504854369,
         "children": [
           {
             "id": "d2317c6938837535",
@@ -158,15 +171,81 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "031412bd7eed8c5b",
+  "floating": {
+    "id": "3476f2ab86d07ba9",
+    "type": "floating",
+    "children": [
+      {
+        "id": "1e29737ef9a3a5a4",
+        "type": "window",
+        "children": [
+          {
+            "id": "17c9f88cac4d5695",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "7e6c237b32bc0d4d",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "doc/AVR-IS.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "AVR-IS"
+                }
+              },
+              {
+                "id": "b4ba8d67815c8eb7",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "doc/atmega328p.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "atmega328p"
+                }
+              },
+              {
+                "id": "26ea2950c175c8e1",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "doc/AVR-Assembler.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "AVR-Assembler"
+                }
+              }
+            ],
+            "currentTab": 1
+          }
+        ],
+        "direction": "vertical",
+        "x": 1793,
+        "y": 108,
+        "width": 602,
+        "height": 601,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "139e9bb200a4fa0e",
   "lastOpenFiles": [
-    "directives.md",
-    "tree.md",
-    "makefiles.md",
-    "assembly.md",
-    "assembly",
-    "env-info.md",
     "doc/atmega328p.pdf",
+    "doc/AVR-Assembler.pdf",
+    "doc/AVR-IS.pdf",
+    "makefiles.md",
+    "doc/GCC-as.pdf",
+    "assembly.md",
+    "IS-table.md",
+    "tree.md",
+    "env-info.md",
+    "directives.md",
+    "assembly",
     "2025-01-25.md",
     "Untitled.canvas"
   ]

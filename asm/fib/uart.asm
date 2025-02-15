@@ -1,4 +1,4 @@
-.include "atmega328p.inc"
+#include <avr/io.h>
 
 .equ F_CPU, 16000000
 .equ BAUD, 	9600
@@ -14,6 +14,7 @@
 
 	.global RESET
 RESET:
+		cli
 	.if DOUBLE_SPEED == 1
 		lds		r16, UCSR0A
 		ori		r16, (1 << U2X0)
