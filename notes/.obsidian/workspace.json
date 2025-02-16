@@ -8,17 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "139e9bb200a4fa0e",
+            "id": "c956b4672073395d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "makefiles.md",
+                "file": "lib.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "makefiles"
+              "title": "lib"
             }
           }
         ]
@@ -171,80 +171,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "floating": {
-    "id": "3476f2ab86d07ba9",
-    "type": "floating",
-    "children": [
-      {
-        "id": "1e29737ef9a3a5a4",
-        "type": "window",
-        "children": [
-          {
-            "id": "17c9f88cac4d5695",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "7e6c237b32bc0d4d",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "doc/AVR-IS.pdf"
-                  },
-                  "icon": "lucide-file-text",
-                  "title": "AVR-IS"
-                }
-              },
-              {
-                "id": "b4ba8d67815c8eb7",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "doc/atmega328p.pdf"
-                  },
-                  "icon": "lucide-file-text",
-                  "title": "atmega328p"
-                }
-              },
-              {
-                "id": "26ea2950c175c8e1",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "doc/AVR-Assembler.pdf"
-                  },
-                  "icon": "lucide-file-text",
-                  "title": "AVR-Assembler"
-                }
-              }
-            ],
-            "currentTab": 1
-          }
-        ],
-        "direction": "vertical",
-        "x": 1793,
-        "y": 108,
-        "width": 602,
-        "height": 601,
-        "maximize": true,
-        "zoom": 0
-      }
-    ]
-  },
-  "active": "139e9bb200a4fa0e",
+  "active": "c956b4672073395d",
   "lastOpenFiles": [
-    "doc/atmega328p.pdf",
-    "doc/AVR-Assembler.pdf",
-    "doc/AVR-IS.pdf",
-    "makefiles.md",
-    "doc/GCC-as.pdf",
     "assembly.md",
-    "IS-table.md",
-    "tree.md",
+    "lib.md",
     "env-info.md",
     "directives.md",
+    "tree.md",
+    "makefiles.md",
+    "Untitled",
+    "doc/AVR-IS.pdf",
+    "doc/atmega328p.pdf",
+    "doc/AVR-Assembler.pdf",
+    "doc/GCC-as.pdf",
+    "IS-table.md",
     "assembly",
     "2025-01-25.md",
     "Untitled.canvas"

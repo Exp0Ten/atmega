@@ -8,8 +8,8 @@
 baud 9600
 
 	.dseg
-buffer: .byte 64
-buffer2: .byte 64
+buffer:	 .byte 64		; original input buffer
+buffer2: .byte 64		; the clone of input buffer using stack cloning
 
 	.cseg
 
@@ -67,4 +67,4 @@ main:
 		pop 	r28
 
 end:
-		rjmp end
+		rjmp 	end

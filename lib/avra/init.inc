@@ -24,6 +24,7 @@ _vectors:
 
 	.org 0x36
 RESET:
+		cli
 		eor 	r0, r0
 		out		SREG, r0
 		ldi		r28, low(RAMEND)

@@ -1,5 +1,5 @@
 
-AVRA   Ver. 1.4.2 test.asm Sat Feb 15 22:10:06 2025
+AVRA   Ver. 1.4.2 test.asm Sun Feb 16 09:57:20 2025
 
 
           .list
@@ -10,78 +10,86 @@ AVRA   Ver. 1.4.2 test.asm Sat Feb 15 22:10:06 2025
           	.org 0
           _vectors:
 C:000000   +  		interrupt RESET, RESaddr
-          .ifndef RESaddr_defined
-          .define RESaddr_defined
-          .set a = PC
+          .list
           .org RESaddr
 C:000000 940c 0036 jmp RESET
-          .org a
-          .else
-         
-          	.org 0x36
-          RESET:
-C:000036 2400      		eor 	r0, r0
-C:000037 be0f      		out		SREG, r0
-C:000038 efcf      		ldi		r28, low(RAMEND)
-C:000039 e0d8      		ldi		r29, high(RAMEND)
-C:00003a bfcd      		out		SPL, r28
-C:00003b bfde      		out		SPH, r29
-C:00003c 940c 0067 		jmp 	main
-          .include "uart.inc"
           .list
          
           	.cseg
           UART_init:
-C:00003e 9100 00c0 		lds		r16, UCSR0A
+C:00003f 9100 00c0 		lds		r16, UCSR0A
           	.if U2X == 1
           	.else
-C:000040 7f0d      		andi	r16, 0xff ^ (1 << U2X0)
+C:000041 7f0d      		andi	r16, 0xff ^ (1 << U2X0)
           	.endif		
-C:000041 9300 00c0 		sts		UCSR0A, r16
+C:000042 9300 00c0 		sts		UCSR0A, r16
          
-C:000043 e000      		ldi		r16, UBRRval >> 8
-C:000044 9300 00c5 		sts		UBRR0H, r16
-C:000046 e607      		ldi		r16, UBRRval
-C:000047 9300 00c4 		sts		UBRR0L, r16
+C:000044 e000      		ldi		r16, UBRRval >> 8
+C:000045 9300 00c5 		sts		UBRR0H, r16
+C:000047 e607      		ldi		r16, UBRRval
+C:000048 9300 00c4 		sts		UBRR0L, r16
          
-C:000049 e108      		ldi		r16, (1 << TXEN0) | (1 << RXEN0)
-C:00004a 9300 00c1 		sts		UCSR0B, r16
+C:00004a e108      		ldi		r16, (1 << TXEN0) | (1 << RXEN0)
+C:00004b 9300 00c1 		sts		UCSR0B, r16
          		
-C:00004c e006      		ldi		r16, (1 << UCSZ00) | (1 << UCSZ01)
-C:00004d 9300 00c2 		sts		UCSR0C, r16
+C:00004d e006      		ldi		r16, (1 << UCSZ00) | (1 << UCSZ01)
+C:00004e 9300 00c2 		sts		UCSR0C, r16
          
-C:00004f 9508      		ret
+C:000050 9508      		ret
          
           UART_stop:
-C:000050 9200 00c1 		sts		UCSR0B, r0
-C:000052 9508      		ret
+C:000051 9200 00c1 		sts		UCSR0B, r0
+C:000053 9508      		ret
          
           UART_send:
-C:000053 9110 00c0 		lds		r17, UCSR0A
-C:000055 ff15      		sbrs	r17, UDRE0
-C:000056 cffc      		rjmp 	UART_send
+C:000054 9110 00c0 		lds		r17, UCSR0A
+C:000056 ff15      		sbrs	r17, UDRE0
+C:000057 cffc      		rjmp 	UART_send
          
-C:000057 9300 00c6 		sts		UDR0, r16
-C:000059 9508      		ret
+C:000058 9300 00c6 		sts		UDR0, r16
+C:00005a 9508      		ret
          
           UART_print:
-C:00005a 910d      		ld		r16, X+
-C:00005b 3000      		cpi		r16, 0
-C:00005c f011      		breq	UART_print_end
-C:00005d dff5      		rcall	UART_send
-C:00005e cffb      		rjmp 	UART_print
+C:00005b 910d      		ld		r16, X+
+C:00005c 3000      		cpi		r16, 0
+C:00005d f011      		breq	UART_print_end
+C:00005e dff5      		rcall	UART_send
+C:00005f cffb      		rjmp 	UART_print
            UART_print_end:
-C:00005f 9508      		ret
+C:000060 9508      		ret
          
           UART_recieve:
-C:000060 9110 00c0 		lds		r17, UCSR0A
-C:000062 ff17      		sbrs	r17, RXC0
-C:000063 cffc      		rjmp 	UART_recieve
+C:000061 9110 00c0 		lds		r17, UCSR0A
+C:000063 ff17      		sbrs	r17, RXC0
+C:000064 cffc      		rjmp 	UART_recieve
          
-C:000064 9100 00c6 		lds		r16, UDR0
-C:000066 9508      		ret		
+C:000065 9100 00c6 		lds		r16, UDR0
+C:000067 9508      		ret		
+          .include "regs.inc"
+          .def zero = r0
+          .def full = r1
+          .def sava = r14
+          .def savb = r15
          
-C:000067   +  baud 9600
+          .def ra = r16
+          .def rb = r17
+          .def rc = r18
+          .def rd = r19
+          .def ri = r20
+          .def rj = r21
+          .def rs = r22
+          .def rio = r23
+         
+          .def Tl = r24
+          .def Th = r25
+          .def Xl = r26
+          .def Xh = r27
+          .def Yl = r28
+          .def Yh = r29
+          .def Zl = r30
+          .def Zh = r31
+         
+C:000068   +  baud 9600
           .set BAUD = 9600
           .if U2X == 1
           .set UBRRval = (F_CPU / (16 * BAUD)) - 1
@@ -89,24 +97,24 @@ C:000067   +  baud 9600
          
           	.cseg
           main:
-C:000067 940e 003e 		call 	UART_init
-C:000069 e401      		ldi		r16, 'A'
-C:00006a 940e 0053 		call	UART_send
+C:000068 940e 003f 		call 	UART_init
+C:00006a e401      		ldi		r16, 'A'
+C:00006b 940e 0054 		call	UART_send
          
-C:00006c e402      		ldi		r16, 'B'
-C:00006d 940e 0053 		call	UART_send
+C:00006d e402      		ldi		r16, 'B'
+C:00006e 940e 0054 		call	UART_send
          
           end:
-C:00006f cfff      		rjmp 	end		
+C:000070 cfff      		rjmp 	end		
 Used memory blocks:
    code      :  Start = 0x0000, End = 0x0001, Length = 0x0002 (2 words), Overlap=N
-   code      :  Start = 0x0036, End = 0x003D, Length = 0x0008 (8 words), Overlap=N
-   code      :  Start = 0x003E, End = 0x0066, Length = 0x0029 (41 words), Overlap=N
-   code      :  Start = 0x0067, End = 0x006F, Length = 0x0009 (9 words), Overlap=N
+   code      :  Start = 0x0036, End = 0x003E, Length = 0x0009 (9 words), Overlap=N
+   code      :  Start = 0x003F, End = 0x0067, Length = 0x0029 (41 words), Overlap=N
+   code      :  Start = 0x0068, End = 0x0070, Length = 0x0009 (9 words), Overlap=N
 
 
 Segment usage:
-   Code      :        60 words (120 bytes)
+   Code      :        61 words (122 bytes)
    Data      :         0 bytes
    EEPROM    :         0 bytes
 

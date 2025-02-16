@@ -782,12 +782,12 @@ BAUD		V	2580	9600
 UBRRval		V	0067	103
 _vectors	L	0000	0
 RESET		L	0036	54
-UART_init	L	003e	62
-UART_stop	L	0050	80
-UART_send	L	0053	83
-UART_print	L	005a	90
-UART_print_end	L	005f	95
-UART_recieve	L	0060	96
-main		L	0067	103
-end		L	006f	111
+UART_init	L	003f	63
+UART_stop	L	0051	81
+UART_send	L	0054	84
+UART_print	L	005b	91
+UART_print_end	L	0060	96
+UART_recieve	L	0061	97
+main		L	0068	104
+end		L	0070	112
 
