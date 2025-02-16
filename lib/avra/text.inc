@@ -1,3 +1,7 @@
+.ifndef uart_def
+	.include "uart.inc"
+.endif
+
 UART_CP:		; character processing
 		cpi		r16, 0x0d
 		breq	CP_newline
@@ -22,9 +26,9 @@ UART_CP:		; character processing
 		rjmp	CP_end
 
  CP_backspace:
- 		cpse	r26, r14
+ 		cpse	r26, r24
 		rjmp	CP_BS_normal
- 		cp 		r27, r15
+ 		cp 		r27, r25
 		breq	CP_BS_skip
 
   CP_BS_normal:
@@ -47,7 +51,7 @@ UART_CP:		; character processing
  		ret
 
 UART_input:
-		movw	r14, r26
+		movw	r24, r26
  UART_input_loop:
 		call	UART_recieve
 		call	UART_CP
@@ -56,4 +60,25 @@ UART_input:
 
  UART_input_end:		; after newline
  		st		X, r0		;end of string
+ 		sbiw	r24, 1
+ 		sub 	r26, r24
+ 		sbc		r27, r25
+ 		movw	r24, r26
+		ret					; returns string length
+
+push_string:
+		ld 		r16, X+
+		st 		-Y, r16
+		cpse	r16, r0
+		rjmp 	push_string
+		ret
+
+pop_string:
+		add		r26, r24		; add length for backwards load from stack
+		adc		r27, r25
+ pop_loop:
+		ld 		r16, Y+
+		st		-X, r16
+		sbiw	r24, 1
+		brne	pop_loop
 		ret
