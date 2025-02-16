@@ -16,10 +16,10 @@
 
 .def Tl = r24
 .def Th = r25
-.def Xl = r26
-.def Xh = r27
-.def Yl = r28
-.def Yh = r29
-.def Zl = r30
-.def Zh = r31
+; .def Xl = r26
+; .def Xh = r27
+; .def Yl = r28
+; .def Yh = r29
+; .def Zl = r30
+; .def Zh = r31
 .list

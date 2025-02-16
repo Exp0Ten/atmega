@@ -102,6 +102,7 @@ Our stack looks like this
 | SP + 2  | retAddr |                                                             |
 | SP + 1  | retAddr |                                                             |
 | SP ->   | -       | unallocated = will get overwriten                           |
+
 Remember Stack Pointer decrements when pushing values and increments when popping values. We cannot directly pop the parameters, because we would get the retAddr and not the variables. You could potentially save the retAddr else where and then push it again and return, but what if from this function you call another function or the data is too long to be just pushed or popped. This would be a problem so we don't do that. Instead we use the base pointer to load the parameters:
 ```asm
 add:
@@ -187,3 +188,4 @@ main:
 And that's it! I know this was long but understanding stack is crucial for parameters and local variables.
 
 ## misc.inc
+This file contains macros which slightly help or change the looks of something. Nothing important code-vise (tho some pretty cool stuff with the assembler).

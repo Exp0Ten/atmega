@@ -2,6 +2,8 @@
 	.include "uart.inc"
 .endif
 
+
+
 UART_CP:		; character processing
 		cpi		r16, 0x0d
 		breq	CP_newline
@@ -59,8 +61,7 @@ UART_input:
 		brne 	UART_input_loop
 
  UART_input_end:		; after newline
- 		st		X, r0		;end of string
- 		sbiw	r24, 1
+ 		st		X, r0		; end of string
  		sub 	r26, r24
  		sbc		r27, r25
  		movw	r24, r26
