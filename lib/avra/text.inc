@@ -1,8 +1,9 @@
 .ifndef uart_def
 	.include "uart.inc"
 .endif
-
-
+.ifndef regs_def
+	.include "regs.inc"
+.endif
 
 UART_CP:		; character processing
 		cpi		r16, 0x0d
@@ -55,7 +56,7 @@ UART_CP:		; character processing
 UART_input:
 		movw	r24, r26
  UART_input_loop:
-		call	UART_recieve
+		call	UART_receive
 		call	UART_CP
 		cpi		r16, 0x0a
 		brne 	UART_input_loop
@@ -75,6 +76,7 @@ push_string:
 		ret
 
 pop_string:
+		adiw	r24, 1
 		add		r26, r24		; add length for backwards load from stack
 		adc		r27, r25
  pop_loop:
@@ -82,4 +84,20 @@ pop_string:
 		st		-X, r16
 		sbiw	r24, 1
 		brne	pop_loop
+		ret
+
+pushx:
+		adiw	Tl, 1
+		add 	Xl, Tl
+		adc		Xh, Th
+		st 		X, zero
+		st 		-X, ra
+		ret
+
+popx:
+		sbiw	Tl, 1
+		add 	Xl, Tl
+		adc		Xh, Th
+		ld		ra, X
+		st		X, zero
 		ret

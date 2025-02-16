@@ -57,7 +57,7 @@ UART_CP:		; character processing
 UART_input:
 		movw	r14, r26
  UART_input_loop:
-		call	UART_recieve
+		call	UART_receive
 		call	UART_CP
 		cpi		r16, 0x0a
 		brne 	UART_input_loop
@@ -67,13 +67,13 @@ UART_input:
 
 main:
 		call	UART_init
+		
 		ldi		r26, low(buffer)
 		ldi		r27, high(buffer)
 		call	UART_input
 		ldi		r26, low(buffer)
 		ldi		r27, high(buffer)
 		call	UART_print
-
 end:
 		rjmp 	end
 

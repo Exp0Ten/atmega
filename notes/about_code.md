@@ -1,5 +1,5 @@
 # Assembly
-In the notes dir is a folder `notes/assembly`. This contains explanation to all of the assembly folders/projects, how they work and what they do.
+In the notes directory is a folder `notes/assembly/`. This contains explanation to all of the assembly folders/projects, how they work and what they do.
 
 Instead in here, I will try to cover some of my assembly practices. I'd like to say these are good practises, but I am not the best person to judge.
 
@@ -38,15 +38,7 @@ I also like to use 0x0a over 10 unless I am working with precalculated constants
 I also recommend using `>> << ~ & |` and more operators when making constants as they make it a lot nicer to read.
 
 ## Registers
-You can redefine names of the registers but I like the numbers usually.
-- r0 for 0 and quick math
-- r1 for 1 and math
-- r2-r15 for math
-- r16-r19 for work, imm and variables
-- r20-25 - longer value hold
-- r26-27 - X, for sram pointer functions 
-- r28-29 - Y, stack and sram
-- r30-31 - Z, and flash or jump pointer or sram pointer with displacement
+Refer to `lib.md` to the chapter about `regs.inc`.
 
 ## Use labels and definitions
 They help a lot. Try to write the code in a way where you can use it as a function in a different one. But this is optimisation and its better to do this after you have had the first successful runtime. Macros allow stronger math with less space taken up.

@@ -67,10 +67,10 @@ UART_print:
  UART_print_end:
 		ret
 
-UART_recieve:
+UART_receive:
 		lds		r17, UCSR0A
 		sbrs	r17, RXC0
-		rjmp 	UART_recieve
+		rjmp 	UART_receive
 
 		lds		r16, UDR0
 		ret		

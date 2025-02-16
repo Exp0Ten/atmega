@@ -2,9 +2,8 @@
 .include "atmega328p.inc"
 .list
 
-	.global RESET
-RESET:
-		jmp 	main
+.include "init.inc"
+
 
 main:
 		ldi 	r19, 0xff

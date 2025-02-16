@@ -1,5 +1,6 @@
 ; READ notes/lib.md !!
 .nolist
+.define regs_def
 .def zero = r0
 .def full = r1
 .def sava = r14
