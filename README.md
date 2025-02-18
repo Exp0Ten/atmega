@@ -12,3 +12,5 @@ Ideally, this repo will be slowly evolving as I learn more and more. I originall
 If you are looking to learning this stuff for yourself, feel free to contact me. I will be more than happy if me reading the documents for countless hours will be helpfull to someone else rather than just to my learning and curiosity.
 
 I might not be active for a long time, but since I wish to work with processors on a low level a lot in the future, I should come back sooner or later.
+
+Also, if you notice you are much more skilled than me and would wanna show me how to do something in a better or a different way, I'm all ears.
