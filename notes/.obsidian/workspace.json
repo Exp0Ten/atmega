@@ -4,20 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "f3e3bc3430a3aa7a",
+        "id": "c36b8607c0775f64",
         "type": "tabs",
         "children": [
           {
-            "id": "e75520d4b1e96ef9",
+            "id": "d222bc463c2f219a",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "lib.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "lib"
+            }
+          },
+          {
+            "id": "3e2ed1a8784c5a68",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "functions.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "functions"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -167,55 +186,21 @@
       "command-palette:Open command palette": false
     }
   },
-  "floating": {
-    "id": "8e32f730e2065b12",
-    "type": "floating",
-    "children": [
-      {
-        "id": "66441d55d81a95cf",
-        "type": "window",
-        "children": [
-          {
-            "id": "ad911293e26e872a",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "0d68acc725ee1a21",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "doc/atmega328p.pdf"
-                  },
-                  "icon": "lucide-file-text",
-                  "title": "atmega328p"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical",
-        "x": 1507,
-        "y": 108,
-        "width": 1177,
-        "height": 784,
-        "maximize": true,
-        "zoom": 0
-      }
-    ]
-  },
-  "active": "e75520d4b1e96ef9",
+  "active": "3e2ed1a8784c5a68",
   "lastOpenFiles": [
-    "assembly/AVR-architecture.md",
     "lib.md",
-    "doc/atmega328p.pdf",
     "about_code.md",
-    "directives.md",
+    "assembly/stack.md",
+    "assembly/AVR-architecture.md",
+    "functions.md",
     "env-info.md",
-    "makefiles.md",
     "tree.md",
+    "makefiles.md",
+    "directives.md",
+    "doc/atmega328p.pdf",
     "doc/AVR-IS.pdf",
     "doc/AVR-Assembler.pdf",
+    "assembly/branching.md",
     "Untitled",
     "doc/GCC-as.pdf",
     "IS-table.md",

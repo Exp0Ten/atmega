@@ -1,7 +1,7 @@
 # Assembly
-In the notes directory is a folder `notes/assembly/`. This contains explanation to all of the assembly folders/projects, how they work and what they do.
+In the notes directory is a folder `notes/assembly/`. These notes explain basic information about coding in assembly. It presumes you already know what assembly is (that it's direct representation of instructions the MCU performs, using registers for working, branch instructions for conditional execution and repetition, and reading and writing to memory, computing whatever you wish to compute).
 
-Instead in here, I will try to cover some of my assembly practices. I'd like to say these are good practises, but I am not the best person to judge.
+Instead in here, I will try to cover some of my assembly practices and how to read the assembly code. I'd like to say these are good practises, but I am not the best person to judge.
 
 ## Tabbing
 I use indentation in the following way as i find it to be the most readable:

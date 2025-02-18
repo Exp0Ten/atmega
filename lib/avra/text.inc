@@ -101,3 +101,72 @@ popx:
 		ld		ra, X
 		st		X, zero
 		ret
+
+index:
+		cpi 	rj, 0
+		brpl	index_end
+		add		Xl, Tl
+		adc		Xh,	Th
+ index_end:
+		add		Xl, ri
+		adc		Xh,	rj
+		ret
+
+clone_string:
+	; if we are copying to a smaller address, then front to back
+	; otherwise back to front (this is to avoid rewriting the data that hasn't been copied yet)
+		push	Yl
+		push	Yh
+		movw	Yl, ra
+		cp		Xh, Yh
+		brge	front_to_back
+		cp		Xl, Yl
+		brge	front_to_back
+
+		add 	Yl, Tl
+		adc		Yh, Th
+		add 	Xl, Tl
+		adc		Xh, Th
+		st		Y, zero
+
+back_to_front:
+		ld 		ra, -X
+
+		brtc 	skip_erase_BTF
+		st 		X, zero
+ skip_erase_BTF:
+
+		st		-Y, ra
+		sbiw	Tl, 1
+		brne	back_to_front
+		cpi		Th, 0
+		brne	back_to_front
+		rjmp 	clone_string_end
+
+front_to_back:
+		ld 		ra, X
+
+		brtc 	skip_erase_FTB
+		st 		X, zero
+ skip_erase_FTB:
+		adiw	Xl, 1 		
+
+		st		Y+, ra
+		sbiw	Tl, 1
+		brne	front_to_back
+		cpi		Th, 0
+		brne	front_to_back
+
+		st		Y, zero
+
+clone_string_end:
+		clt
+		pop		Yh
+		pop		Yl
+		ret
+
+move_string:
+		set
+		rcall 	clone_string
+		ret
+
