@@ -74,3 +74,15 @@ UART_receive:
 
 		lds		r16, UDR0
 		ret		
+
+; Print from Flash memory
+
+UART_printZ:
+		lpm		r16, Z+
+		cpi		r16, 0
+		breq	UART_printZ_end
+		rcall	UART_send
+		rjmp 	UART_printZ
+ UART_printZ_end:
+		ret
+

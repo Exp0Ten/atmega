@@ -1,202 +1,41 @@
 
-AVRA   Ver. 1.4.2 test.asm Sun Feb 16 21:29:05 2025
+AVRA   Ver. 1.4.2 test.asm Wed Apr 23 21:44:03 2025
 
 
           .list
-          .include "init.inc"
-          .list
-         
-          	.cseg
-          	.org 0
-          _vectors:
-C:000000   +  		interrupt RESET, RESaddr
-          .list
-          .org RESaddr
-C:000000 940c 0036 jmp RESET
-          .list
-         
-          	.cseg
-          UART_init:
-C:000042 9100 00c0 		lds		r16, UCSR0A
-          	.if U2X == 1
-          	.else
-C:000044 7f0d      		andi	r16, 0xff ^ (1 << U2X0)
-          	.endif		
-C:000045 9300 00c0 		sts		UCSR0A, r16
-         
-C:000047 e000      		ldi		r16, UBRRval >> 8
-C:000048 9300 00c5 		sts		UBRR0H, r16
-C:00004a e607      		ldi		r16, UBRRval
-C:00004b 9300 00c4 		sts		UBRR0L, r16
-         
-C:00004d e108      		ldi		r16, (1 << TXEN0) | (1 << RXEN0)
-C:00004e 9300 00c1 		sts		UCSR0B, r16
-         		
-C:000050 e006      		ldi		r16, (1 << UCSZ00) | (1 << UCSZ01)
-C:000051 9300 00c2 		sts		UCSR0C, r16
-         
-C:000053 9508      		ret
-         
-          UART_stop:
-C:000054 9200 00c1 		sts		UCSR0B, r0
-C:000056 9508      		ret
-         
-          UART_send:
-C:000057 9110 00c0 		lds		r17, UCSR0A
-C:000059 ff15      		sbrs	r17, UDRE0
-C:00005a cffc      		rjmp 	UART_send
-         
-C:00005b 9300 00c6 		sts		UDR0, r16
-C:00005d 9508      		ret
-         
-          UART_print:
-C:00005e 910d      		ld		r16, X+
-C:00005f 3000      		cpi		r16, 0
-C:000060 f011      		breq	UART_print_end
-C:000061 dff5      		rcall	UART_send
-C:000062 cffb      		rjmp 	UART_print
-           UART_print_end:
-C:000063 9508      		ret
-         
-          UART_receive:
-C:000064 9110 00c0 		lds		r17, UCSR0A
-C:000066 ff17      		sbrs	r17, RXC0
-C:000067 cffc      		rjmp 	UART_receive
-         
-C:000068 9100 00c6 		lds		r16, UDR0
-C:00006a 9508      		ret		
+         ;.include "init.inc"
+         ;.include "uart.inc"
           .include "regs.inc"
          ; READ notes/lib.md !!
           .list
-          .include "text.inc"
-          .ifndef uart_def
-          .endif
-          .ifndef regs_def
-          .endif
+         ;.include "text.inc"
          
-          UART_CP:		; character processing
-C:00006b 300d      		cpi		r16, 0x0d
-C:00006c f059      		breq	CP_newline
-C:00006d 3008      		cpi		r16, 0x08
-C:00006e f081      		breq	CP_backspace
-C:00006f 310b      		cpi		r16, 0x1b
-C:000070 f101      		breq	CP_escape
-C:000071 e810      		ldi 	r17, 0x80
-C:000072 2310      		and		r17, r16	 	; if MSB is set or not (ascii only uses 7 bits)
-C:000073 f4c9      		brne	CP_nonascii
          
-C:000074 940e 0057 		call	UART_send
-           CP_end:
-C:000076 930d      		st		X+, r16
-C:000077 9508      		ret
-         
-           CP_newline:
-C:000078 940e 0057  		call	UART_send
-C:00007a 930d      		st		X+, r16
-C:00007b e00a      		ldi		r16, 0x0a
-C:00007c 940e 0057 		call	UART_send
-C:00007e cff7      		rjmp	CP_end
-         
-           CP_backspace:
-C:00007f 13a8       		cpse	r26, r24
-C:000080 c002      		rjmp	CP_BS_normal
-C:000081 17b9       		cp 		r27, r25
-C:000082 f049      		breq	CP_BS_skip
-         
-            CP_BS_normal:
-C:000083 940e 0057 		call	UART_send
-C:000085 e200      		ldi		r16, ' '
-C:000086 940e 0057 		call	UART_send
-C:000088 e008      		ldi		r16, 0x08
-C:000089 940e 0057 		call	UART_send
-C:00008b 920e      		st		-X, r0		; remove last char from buffer
-         
-            CP_BS_skip:
-C:00008c 9508      		ret
-         
-           CP_nonascii:
-C:00008d e20e       		ldi		r16, '.'
-C:00008e 940e 0057  		call	UART_send
-C:000090 cfe5       		rjmp 	CP_end		; "." will get stored in the string instead
-         
-           CP_escape:
-C:000091 9508       		ret
-         
-          UART_input:
-C:000092 01cd      		movw	r24, r26
-           UART_input_loop:
-C:000093 940e 0064 		call	UART_receive
-C:000095 940e 006b 		call	UART_CP
-C:000097 300a      		cpi		r16, 0x0a
-C:000098 f7d1      		brne 	UART_input_loop
-         
-           UART_input_end:		; after newline
-C:000099 920c       		st		X, r0		; end of string
-C:00009a 1ba8       		sub 	r26, r24
-C:00009b 0bb9       		sbc		r27, r25
-C:00009c 01cd       		movw	r24, r26
-C:00009d 9508      		ret					; returns string length
-         
-          push_string:
-C:00009e 910d      		ld 		r16, X+
-C:00009f 930a      		st 		-Y, r16
-C:0000a0 1100      		cpse	r16, r0
-C:0000a1 cffc      		rjmp 	push_string
-C:0000a2 9508      		ret
-         
-          pop_string:
-C:0000a3 0fa8      		add		r26, r24		; add length for backwards load from stack
-C:0000a4 1fb9      		adc		r27, r25
-           pop_loop:
-C:0000a5 9109      		ld 		r16, Y+
-C:0000a6 930e      		st		-X, r16
-C:0000a7 9701      		sbiw	r24, 1
-C:0000a8 f7e1      		brne	pop_loop
-C:0000a9 9508      		ret
-          pushx:
-C:0000aa 9601      		adiw	Tl, 1
-C:0000ab 0fa8      		add 	Xl, Tl
-C:0000ac 1fb9      		adc		Xh, Th
-C:0000ad 920c      		st 		X, zero
-C:0000ae 930e      		st 		-X, ra
-C:0000af 9508      		ret
-         
-          popx:
-C:0000b0 9701      		sbiw	Tl, 1
-C:0000b1 0fa8      		add 	Xl, Tl
-C:0000b2 1fb9      		adc		Xh, Th
-C:0000b3 910c      		ld		ra, X
-C:0000b4 920c      		st		X, zero
-C:0000b5 9508      		ret
-         
-C:0000b6   +  baud 9600
-          .set BAUD = 9600
-          .if U2X == 1
-          .set UBRRval = (F_CPU / (16 * BAUD)) - 1
-          .endif
          
           	.cseg
           main:
-C:0000b6 940e 0042 		call 	UART_init
+C:000000 e200      		ldi		ra, 0b00100000		
+C:000001 b904      		out		DDRB, ra
+         
           loop:
-C:0000b8 940e 0092 		call 	UART_input
+C:000002 b103      		in 		ra, PINB
+C:000003 7001      		andi	ra, (1 << PINB0)
+C:000004 fb00      		bst		ra, PORTB0
+C:000005 2700      		clr		ra
+C:000006 f905      		bld		ra, PORTB5
+C:000007 b905      		out 	PORTB, ra
          
-C:0000ba e401      		ldi		ra, 'A'
-C:0000bb 940e 0057 		call	UART_send
+C:000008 cff9      		rjmp 	loop
          
-         ;		ldi		r16, 'B'
-         ;		call	UART_send
+          end:
+C:000009 cfff      		rjmp 	end
          
-C:0000bd cffa      		rjmp 	loop
 Used memory blocks:
-   code      :  Start = 0x0000, End = 0x0001, Length = 0x0002 (2 words), Overlap=N
-   code      :  Start = 0x0036, End = 0x0041, Length = 0x000C (12 words), Overlap=N
-   code      :  Start = 0x0042, End = 0x00B5, Length = 0x0074 (116 words), Overlap=N
-   code      :  Start = 0x00B6, End = 0x00BD, Length = 0x0008 (8 words), Overlap=N
+   code      :  Start = 0x0000, End = 0x0009, Length = 0x000A (10 words), Overlap=N
 
 
 Segment usage:
-   Code      :       138 words (276 bytes)
+   Code      :        10 words (20 bytes)
    Data      :         0 bytes
    EEPROM    :         0 bytes
 

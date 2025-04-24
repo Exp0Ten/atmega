@@ -170,3 +170,26 @@ move_string:
 		rcall 	clone_string
 		ret
 
+.macro load_memory
+ .ifndef PM_loaded
+	.def PM_loaded
+load_program_memory:
+		ldi		Zh, high(@0)
+		ldi		Zl, low(@0)
+
+		ldi		Th, high(@1 +1)
+		ldi		Tl, low(@1 +1)
+		
+		ldi		Xh, 0x01
+		ldi		Xl, 0x00
+ lpm_loop:
+		lpm 	ra, Z+
+		st 		X+, ra
+		sbiw	Tl
+		brne	lpm_loop
+
+		xor 	ra, ra
+		ret
+
+ .endif
+.endm
