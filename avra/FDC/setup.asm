@@ -1,11 +1,25 @@
-.nolist
-.include "atmega328p.inc"
-.include "init.inc"
-.include "regs.inc"
-.include "uart.inc"
-.list
-
 baud 9600
+
+;PortD
+.define DenS 2
+.define DrS0 3
+.define DrS1 4
+.define MOTOR 5
+.define Dir 6
+.define STEPP 7
+
+;PortB
+.define WRGT 0
+.define TR00 1
+.define WRPT 2
+.define Side 3
+.define LED 5
+
+;PortC
+.define READ 0
+.define WRITE 1
+.define INDEX 2
+.define READY 3
 
 setup:
 		call	UART_init
@@ -29,8 +43,9 @@ setup:
 		; B1 - Track 00			9		13
 		; B2 - Write Protect	10		14
 		; B3 - Side Select		12		16		
+		; B5 - LED				13
 
-		ldi		ra, 0b1001
+		ldi		ra, 0b101001
 		out		DDRB, ra
 
 		; Setting up portC
@@ -47,19 +62,13 @@ setup:
 		ldi		ra, 0b11100000
 		out		PORTD, ra
 
-		; SIDE SELECT NORMAL
-		ldi		ra, 0b1001
+		; SIDE SELECT NORMAL, + pullup
+		ldi		ra, 0b1111
 		out		PORTB, ra
 
-		; WRITE DATA STANDBY
-		ldi		ra, 0b0010
+		; WRITE DATA STANDBY + pullup
+		ldi		ra, 0b1111
 		out		PORTC, ra
 
 		eor		ra, ra
-		ret
-
-
-		; Test Write Protect, Motor, Ready, Go to track 00, Test Index line, 
-self_test:
-
 		ret

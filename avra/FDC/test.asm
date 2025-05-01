@@ -9,23 +9,23 @@ baud 9600
 
 	.cseg
 
-.set DS		= 2
-.set Dr0	= 3
-.set Dr1	= 4
-.set MT		= 5
-.set Dir 	= 6
-.set STP	= 7
+.define DS		= 2
+.define Dr0	    = 3
+.define Dr1	    = 4
+.define MT		= 5
+.define Dir 	= 6
+.define STP	    = 7
 
-.set WG		= 0
-.set T0		= 1
-.set WP		= 2
-.set Side	= 3
-.set LED	= 4
+.define WG		= 0
+.define T0		= 1
+.define WP		= 2
+.define Side	= 3
+.define LED	    = 4
 
-.set RE		= 0
-.set WR 	= 1
-.set ID		= 2
-.set DC		= 3
+.define RE		= 0
+.define WR 	    = 1
+.define ID		= 2
+.define DC		= 3
 
 main:
 		rcall 	UART_init

@@ -20,7 +20,7 @@ main_loop:
 		rjmp	main_loop
 
 WOS:
-		ldi		r16, 61	
+		ldi		r16, 61
 
 WOS_loop:
 		sbis	io(TIFR0), TOV0			; test the overflow flag, skips loop if true (=> 1 cycle)

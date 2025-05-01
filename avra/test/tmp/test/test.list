@@ -1,41 +1,186 @@
 
-AVRA   Ver. 1.4.2 test.asm Wed Apr 23 21:44:03 2025
+AVRA   Ver. 1.4.2 test.asm Thu May  1 11:14:13 2025
 
 
           .list
-         ;.include "init.inc"
-         ;.include "uart.inc"
+          .include "init.inc"
+          .list
+         
+          	.cseg
+          	.org 0
+          _vectors:
+C:000000   +  		interrupt RESET, RESaddr
+          .list
+          .org RESaddr
+C:000000 940c 0036 jmp RESET
+          .list
+         
+          	.cseg
+          UART_init:
+C:000042 9100 00c0 		lds		r16, UCSR0A
+          	.if U2X == 1
+          	.else
+C:000044 7f0d      		andi	r16, 0xff ^ (1 << U2X0)
+          	.endif		
+C:000045 9300 00c0 		sts		UCSR0A, r16
+         
+C:000047 e000      		ldi		r16, UBRRval >> 8
+C:000048 9300 00c5 		sts		UBRR0H, r16
+C:00004a e607      		ldi		r16, UBRRval
+C:00004b 9300 00c4 		sts		UBRR0L, r16
+         
+C:00004d e108      		ldi		r16, (1 << TXEN0) | (1 << RXEN0)
+C:00004e 9300 00c1 		sts		UCSR0B, r16
+         		
+C:000050 e006      		ldi		r16, (1 << UCSZ00) | (1 << UCSZ01)
+C:000051 9300 00c2 		sts		UCSR0C, r16
+         
+C:000053 9508      		ret
+         
+          UART_stop:
+C:000054 9200 00c1 		sts		UCSR0B, r0
+C:000056 9508      		ret
+         
+          UART_send:
+C:000057 9110 00c0 		lds		r17, UCSR0A
+C:000059 ff15      		sbrs	r17, UDRE0
+C:00005a cffc      		rjmp 	UART_send
+         
+C:00005b 9300 00c6 		sts		UDR0, r16
+C:00005d 9508      		ret
+         
+          UART_print:
+C:00005e 910d      		ld		r16, X+
+C:00005f 3000      		cpi		r16, 0
+C:000060 f011      		breq	UART_print_end
+C:000061 dff5      		rcall	UART_send
+C:000062 cffb      		rjmp 	UART_print
+           UART_print_end:
+C:000063 9508      		ret
+         
+          UART_receive:
+C:000064 9110 00c0 		lds		r17, UCSR0A
+C:000066 ff17      		sbrs	r17, RXC0
+C:000067 cffc      		rjmp 	UART_receive
+         
+C:000068 9100 00c6 		lds		r16, UDR0
+C:00006a 9508      		ret		
+         
+         ; Print from Flash memory
+         
+          UART_printZ:
+C:00006b 9105      		lpm		r16, Z+
+C:00006c 3000      		cpi		r16, 0
+C:00006d f011      		breq	UART_printZ_end
+C:00006e dfe8      		rcall	UART_send
+C:00006f cffb      		rjmp 	UART_printZ
+           UART_printZ_end:
+C:000070 9508      		ret
+         
+          
           .include "regs.inc"
          ; READ notes/lib.md !!
           .list
          ;.include "text.inc"
+          .include "misc.inc"
+          .list
          
          
+          wait:
+C:000071 bd87              out     OCR0A, Tl
+C:000072 ec02              ldi     ra, 0b11000010
+C:000073 bd04              out     TCCR0A, ra
+C:000074 bd65              out     TCCR0B, rs
+         
+          wait_loop:
+C:000075 9ba9              sbis    TIFR0, OCF0A
+C:000076 cffe              rjmp    wait_loop
+         
+C:000077 bc05              out     TCCR0B, zero
+C:000078 9aa9              sbi     TIFR0, OCF0A
+C:000079 bc06              out     TCNT0, zero
+         ;        out     TCCR0A, zero
+C:00007a 9508              ret
+         
+         
+          wait_long:
+C:00007b 9380 0088         sts     OCR1AL, Tl
+C:00007d 9390 0089         sts     OCR1AH, Th
+C:00007f ec00              ldi     ra, 0b11000000
+C:000080 9300 0080         sts     TCCR1A, ra
+C:000082 9360 0081         sts     TCCR1B, rs
+         
+          wait_long_loop:
+C:000084 9bb1              sbis    TIFR1, OCF1A
+C:000085 cffe              rjmp    wait_long_loop
+         
+C:000086 9200 0081         sts     TCCR1B, zero
+C:000088 9ab1              sbi     TIFR1, OCF1A
+         ;        sts     TCNT1H, zero
+         ;        sts     TCNT1L, zero
+C:000089 9200 0080         sts     TCCR1A, zero
+C:00008b 9508              ret
+         
+          
+          .list
+         
+C:00008c   +  baud 9600
+          .set BAUD = 9600
+          .if U2X == 1
+          .set UBRRval = (F_CPU / (16 * BAUD)) - 1
+          .endif
          
           	.cseg
+         
           main:
-C:000000 e200      		ldi		ra, 0b00100000		
-C:000001 b904      		out		DDRB, ra
+C:00008c 94f8      		cli
+C:00008d 940e 0042 		call	UART_init
+C:00008f 9a25      		sbi 	DDRB, PORTB5
+C:000090 e19e      		ldi		Th,	0x1e
+C:000091 e884      		ldi		Tl, 0x84
+C:000092 e06d      		ldi		rs, 0b1101
          
           loop:
-C:000002 b103      		in 		ra, PINB
-C:000003 7001      		andi	ra, (1 << PINB0)
-C:000004 fb00      		bst		ra, PORTB0
-C:000005 2700      		clr		ra
-C:000006 f905      		bld		ra, PORTB5
-C:000007 b905      		out 	PORTB, ra
+C:000093 9a2d      		sbi 	PORTB, PORTB5
+         ;		lds		ra, TCNT1L
+         ;		call	UART_send
+         ;		lds		ra, TCNT1H
+         ;		call	UART_send
+         ;		eor		ra, ra
+C:000094 dfe6      		rcall	wait_long
+C:000095 982d      		cbi 	PORTB, PORTB5
+C:000096 dfe4      		rcall	wait_long
+C:000097 cffb      		rjmp 	loop
          
-C:000008 cff9      		rjmp 	loop
+         				
          
-          end:
-C:000009 cfff      		rjmp 	end
-         
+         ;wait:
+         ;		ldi		ra, 0x0d
+         ;		sts		OCR1AL, ra
+         ;		ldi		ra, 0x03
+         ;		sts		OCR1AH, ra
+         ;		ldi		ra, 0b11000000
+         ;		sts		TCCR1A, ra
+         ;		ldi		ra, 0b1101
+         ;		sts		TCCR1B, ra
+         ;
+         ;wloop:
+         ;		sbis	TIFR1, OCF1A
+         ;		rjmp 	wloop
+         ;
+         ;		sbi 	TIFR1, OCF1A
+         ;		ret
+         ;
+         ;
 Used memory blocks:
-   code      :  Start = 0x0000, End = 0x0009, Length = 0x000A (10 words), Overlap=N
+   code      :  Start = 0x0000, End = 0x0001, Length = 0x0002 (2 words), Overlap=N
+   code      :  Start = 0x0036, End = 0x0041, Length = 0x000C (12 words), Overlap=N
+   code      :  Start = 0x0042, End = 0x008B, Length = 0x004A (74 words), Overlap=N
+   code      :  Start = 0x008C, End = 0x0097, Length = 0x000C (12 words), Overlap=N
 
 
 Segment usage:
-   Code      :        10 words (20 bytes)
+   Code      :       100 words (200 bytes)
    Data      :         0 bytes
    EEPROM    :         0 bytes
 
