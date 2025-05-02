@@ -72,3 +72,38 @@ setup:
 
 		eor		ra, ra
 		ret
+
+wait_for_disk:
+        ldi		Zl, low(wait_msg*2)
+		ldi		Zh, high(wait_msg*2)
+		call	UART_printZ
+
+ wfd_loop:
+        call    step
+        sbis    PINC, READY
+        rjmp    wfd_loop
+
+        ret
+ wait_msg: .db "Waiting for disk...", 0x0d, 0x0a, 0x00
+
+
+test_wp:
+        clt
+        sbic    PINB, WRPT
+        ret
+
+		ldi		Zl, low(wp_msg*2)
+		ldi		Zh, high(wp_msg*2)
+		call	UART_printZ
+
+		ldi		Th,	0x1e
+		ldi		Tl, 0x84
+		ldi		rs, 0b1101
+		call	wait_long
+
+ wp_wait:
+        sbic    PINC, READY
+        rjmp    wp_wait
+        set
+        ret
+ wp_msg: .db "Disk is write protected.", 0xd, 0xa, 0x00

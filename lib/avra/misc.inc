@@ -18,7 +18,7 @@ wait_loop:
         out     TCCR0B, zero
         sbi     TIFR0, OCF0A
         out     TCNT0, zero
-;        out     TCCR0A, zero
+        out     TCCR0A, zero
         ret
 
 

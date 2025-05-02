@@ -36,7 +36,7 @@ trackzz:
 		rcall	dir_minus
 
  trackzz_loop:
-		; wait 2.8ms == 256*175 == 44800 cycles		
+		; wait 2.8ms == 256*175 == 44800 cycles
 		ldi		Tl, 175
 		ldi		rs, 0b100 ; 256 prescaler
 		rcall	wait
@@ -53,4 +53,21 @@ trackzz:
 
 
 motor_start:
-		sbi 	
+		cbi 	PORTD, MOTOR
+		; wait 600ms = 1024 * 9375 = 9600000 cycles
+		ldi		Th, 0x24
+		ldi		Tl, 0x9f
+		ldi		rs, 0b1101
+		call	wait_long
+
+		ret
+
+motor_stop:
+		sbi 	PORTD, MOTOR
+		ret
+
+wait_for_index:
+        sbic    PINC, INDEX
+        rjmp    wait_for_index
+
+        ret
