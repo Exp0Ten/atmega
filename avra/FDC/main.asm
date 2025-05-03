@@ -22,6 +22,8 @@ main:
 		call	UART_printZ
         cbi     PORTB, LED
 
+
+
 main_loop:
 		call	wait_for_disk
 
@@ -36,15 +38,24 @@ main_loop:
 
 		call	trackzz
 
-        sbi     PORTB, LED
-
         call    motor_start
+        sbi     PORTB, LED
+        call    wait_for_index
+
+		ldi		Th,	0x1e
+		ldi		Tl, 0x84
+		ldi		rs, 0b1101
+		call	wait_long+
+        cbi     PORTB, LED
+
+
+        call    write_begin
 
         ldi     rc, 4
 read_loop:
 		call	read_begin
 
-        ldi     rj, 32
+        ldi     rj, 0
         ldi     Xl, low(raw_buffer)
         ldi     Xh, high(raw_buffer)
 
@@ -59,6 +70,8 @@ bin_loop:
 
         ldi     ra, 0x0a
         call    UART_send
+
+        call    UART_receive
 
         dec     rc
         brne    read_loop
