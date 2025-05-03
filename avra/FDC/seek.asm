@@ -67,7 +67,10 @@ motor_stop:
 		ret
 
 wait_for_index:
-        sbic    PINC, INDEX
+        sbis    PINC, INDEX
         rjmp    wait_for_index
+ wait_for_new_index:
+        sbic    PINC, INDEX
+        rjmp    wait_for_new_index
 
         ret

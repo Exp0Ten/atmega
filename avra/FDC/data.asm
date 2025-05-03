@@ -9,11 +9,16 @@ send_binary:
         lsl     rd
         dec     ri
         brne    send_binary_loop
-        ret
+        rjmp    send_binary_end
+
  send_binary_set:
         ldi     ra, '1'
         call    UART_send
         lsl     rd
         dec     ri
         brne    send_binary_loop
+
+ send_binary_end:
+        ldi     ra, ' '
+        call    UART_send
         ret

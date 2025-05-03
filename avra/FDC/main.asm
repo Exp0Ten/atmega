@@ -20,6 +20,7 @@ main:
 		ldi		Zl, low(start_msg*2)
 		ldi		Zh, high(start_msg*2)
 		call	UART_printZ
+        cbi     PORTB, LED
 
 main_loop:
 		call	wait_for_disk
@@ -35,14 +36,36 @@ main_loop:
 
 		call	trackzz
 
-        ldi     rd, 0x0a
+        sbi     PORTB, LED
+
+        call    motor_start
+
+        ldi     rc, 4
+read_loop:
+		call	read_begin
+
+        ldi     rj, 32
+        ldi     Xl, low(raw_buffer)
+        ldi     Xh, high(raw_buffer)
+
+bin_loop:
+        ld      rd, X+
         call    send_binary
+        dec     rj
+        brne    bin_loop
+
+        ldi     ra, 0x0d
+        call    UART_send
+
+        ldi     ra, 0x0a
+        call    UART_send
+
+        dec     rc
+        brne    read_loop
+
+        call    motor_stop
 
 		rjmp 	end
-		call	read_begin
-		
-
-
 
 op_loop:
 		ldi		Zl, low(op_msg*2)
