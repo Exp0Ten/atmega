@@ -1,6 +1,6 @@
 read_begin:
-        ldi     Th, 0x00
-        ldi     Tl, 0x40        ; 128 bytes
+        ldi     Th, 0x01
+        ldi     Tl, 0x00        ; 64 bytes
         mov     sava, Tl        ; saving Tl
         ldi     Xl, low(raw_buffer)
         ldi     Xh, high(raw_buffer)
@@ -8,12 +8,9 @@ read_begin:
 
  read_offset:     ; nop offsets (1 nop = 0.0625 us)
 
+;        nop
+
         rcall   read_raw    ; +3 cycles
-
-;        nop
-;       nop
-;        nop
-
         ret
 
 read_raw:
@@ -124,3 +121,50 @@ read_raw:
 
 read_raw_end:
  		ret
+
+
+read_bytes:
+        ldi     ri, 8
+        ldi     Xh, high(raw_buffer)
+        ldi     Xl, low(raw_buffer)
+        ldi     Th, 0x01
+        ldi     Tl, 0x00
+        call    wait_for_index
+
+        nop
+        nop
+        nop
+        nop
+        nop
+
+
+ read_byte_continue:     ; 10 cycles
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+    ; 10 + 6
+read_byte:
+        sbis    PINC, READ  ; 1/2
+        sec                 ; 1
+        rol     rd          ; 1
+        subi    ri, 1       ; 1
+        brne    read_byte_continue  ; 1/2
+ read_byte_end:
+        st      X+, rd      ; 2
+        clr     rd          ; 1
+        ldi     ri, 8       ; 1
+        nop                 ; 1
+        nop                 ; 1
+        nop                 ; 1
+        sbiw    Tl, 1       ; 2
+        brne    read_byte   ; 2
+
+ read_end:
+        ret

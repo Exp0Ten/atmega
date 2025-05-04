@@ -38,24 +38,26 @@ main_loop:
 
 		call	trackzz
 
+		ldi		Th,	0x1e
+		ldi		Tl, 0x84
+		ldi		rs, 0b1101
+		call	wait_long
+
+
         call    motor_start
         sbi     PORTB, LED
         call    wait_for_index
 
-		ldi		Th,	0x1e
-		ldi		Tl, 0x84
-		ldi		rs, 0b1101
-		call	wait_long+
         cbi     PORTB, LED
 
 
-        call    write_begin
+;       call    write_begin
 
         ldi     rc, 4
 read_loop:
-		call	read_begin
-
-        ldi     rj, 0
+        ldi     rj, 128
+;        call    read_bytes
+        call    read_begin
         ldi     Xl, low(raw_buffer)
         ldi     Xh, high(raw_buffer)
 

@@ -1,12 +1,13 @@
 write_begin:
-        ldi     rc, 0
+        ldi     rc, 32
         sbi     PORTC, WRITE
 
         cbi     PORTB, WRGT
         ldi     Tl, 30
         call    wait_short
         call    wait_for_index
-        rcall   write_raw
+        rcall   a1_sync
+;        rcall   write_raw
 
         ret
 
@@ -24,24 +25,42 @@ wn: ; 16
  wnh:
         ret
 
+a1_sync:
+        call    wt
+        call    wn
+        call    wn
+        call    wn
+        call    wt
+        call    wn
+        call    wn
+        call    wt
+        call    wn
+        call    wn
+        call    wn
+        call    wt
+        call    wn
+        call    wn
+        call    wt
+        call    wn
 
 write_raw:
-        call    wn  ; 0
         call    wn
-        call    wt  ; 1
         call    wn
-        call    wt  ; 1
-        call    wn
-        call    wn  ; 0
         call    wt
-        call    wn  ; 0
-        call    wt
-        call    wn  ; 0
-        call    wt
-        call    wn  ; 0
         call    wn
-        call    wt  ; 1
-        call    wnh         ; 8 cycles
+        call    wt
+        call    wn
+        call    wn
+        call    wt
+        call    wn
+        call    wt
+        call    wn
+        call    wt
+        call    wn
+        call    wn
+        call    wt
+
+        call    wnh
 
         nop
         nop
@@ -56,3 +75,4 @@ write_raw:
         sbi     PORTB, WRGT
 
         ret
+
