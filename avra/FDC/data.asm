@@ -22,3 +22,17 @@ send_binary:
         ldi     ra, ' '
         call    UART_send
         ret
+
+encode:
+        ldi     Xl, low(data_buffer)
+        ldi     Xh, high(data_buffer)
+        ldi     Zl, low(raw_buffer)
+        ldi     Zh, high(raw_buffer)
+        ldi     Tl, 0x00
+        ldi     Th, 0x01
+
+ encode_loop:
+        ld      ra, X+
+        ld      rb, X+
+        ld      rc, X
+        

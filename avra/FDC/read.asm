@@ -124,6 +124,15 @@ read_raw_end:
 
 
 read_bytes:
+;        ldi     ra, 0x00
+;        sts     OCR1AL, ra
+;        ldi     ra, 0x04
+;        sts     OCR1AH, ra
+;        ldi     ra, 0b11000000
+;        sts     TCCR1A, ra
+;        ldi     ra, 0b1001
+;        sts     TCCR1B, ra
+
         ldi     ri, 8
         ldi     Xh, high(raw_buffer)
         ldi     Xl, low(raw_buffer)
@@ -131,26 +140,48 @@ read_bytes:
         ldi     Tl, 0x00
         call    wait_for_index
 
+;        nop
+;        nop
+;        nop
+;        nop
+;        nop
+;        nop
+
+
+; read_byte_continue:     ; 10 cycles
+;        sbic    TIFR1, OCF1A    ; 1/2
+;        rjmp    skip_nop      ; 2
+;        nop
+;        nop
+;        nop
+;        nop
+;        nop
+;        nop
+;        rjmp    read_byte ; 2
+;        ; total     10+6 (2 + 6 + 2)
+;
+; skip_nop:    ; total 9+6 (1 + 2 + 2 + 4)
+;        sbi     TIFR1, OCF1A    ; 2
+;        nop
+;        nop
+;        nop
+;        nop
+;        nop
+
+
+read_byte_continue:
+        nop
+        nop
+        nop
+        nop
+        nop
         nop
         nop
         nop
         nop
         nop
 
-
- read_byte_continue:     ; 10 cycles
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-    ; 10 + 6
-read_byte:
+ read_byte:
         sbis    PINC, READ  ; 1/2
         sec                 ; 1
         rol     rd          ; 1
@@ -167,4 +198,8 @@ read_byte:
         brne    read_byte   ; 2
 
  read_end:
+;        sts     TCCR1B, zero
+;        sbi     TIFR1, OCF1A
+;        sts     TCCR1A, zero
+
         ret

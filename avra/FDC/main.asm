@@ -51,13 +51,14 @@ main_loop:
         cbi     PORTB, LED
 
 
-;       call    write_begin
+;        call    write_begin
+
 
         ldi     rc, 4
 read_loop:
-        ldi     rj, 128
-;        call    read_bytes
-        call    read_begin
+        ldi     rj, 150
+        call    read_bytes
+;        call    read_begin
         ldi     Xl, low(raw_buffer)
         ldi     Xh, high(raw_buffer)
 
@@ -139,4 +140,5 @@ start_msg: .db "Program loaded.", 0x0d, 0x0a, 0x00
 
 track_number: .byte 1
 
+data_buffer: .byte 512
 raw_buffer: .byte 1024
