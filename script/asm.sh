@@ -12,6 +12,7 @@ fi
 
 name=${name%.*}
 
+atmega_path=$(dirname $(dirname $0))
 
 case "$1" in
     "switch")
@@ -22,7 +23,7 @@ case "$1" in
     "target")
         echo $name > .target
         echo "Switching .target => $name"
-        make -f $HOME/atmega/lib/make/makefile-asm name=$name
+        make -f $atmega_path/lib/make/makefile-asm name=$name
         exit 0
         ;;
     *)
@@ -30,4 +31,4 @@ case "$1" in
 esac
 
 echo "Selecting $name"
-make -f $HOME/atmega/lib/make/makefile-asm name=$name $1
+make -f $atmega_path/lib/make/makefile-asm name=$name $1

@@ -1,11 +1,14 @@
 name = ""
+
+atmega_path := $(shell dirname $(shell dirname $(dir $(realpath $(lastword $(MAKEFILE_LIST))))))
+
 asm = $(name).asm
 elf = tmp/$(name)/$(name).elf
 hex = tmp/$(name)/$(name).hex
 list = tmp/$(name)/$(name).list
 
 
-as_flags = -Xassembler -I -Xassembler ${HOME}/atmega/lib/gcc-avr -Xassembler -alsm=$(list)
+as_flags = -Xassembler -I -Xassembler $(atmega_path)/lib/gcc-avr -Xassembler -alsm=$(list)
 ld_flags = -Xlinker -e -Xlinker 0 -Xlinker -S # -Xlinker -x -Xlinker -s
 
 # Variables
@@ -16,16 +19,16 @@ all: $(hex)
 
 $(elf): $(asm)
 	@mkdir -p tmp/$(name)
-	avr-gcc -I ${HOME}/atmega/lib/gcc-avr -nostartfiles $(as_flags) $(ld_flags) -x assembler-with-cpp -mmcu=$(mcu) -o $(elf) $(asm)
+	avr-gcc -I $(atmega_path)/lib/gcc-avr -nostartfiles $(as_flags) $(ld_flags) -x assembler-with-cpp -mmcu=$(mcu) -o $(elf) $(asm)
 
-#	avr-as -mmcu=$(mcu) -I ${HOME}/atmega/lib/gcc-avr -o $(obj) $(asm)
+#	avr-as -mmcu=$(mcu) -I $(atmega_path)/lib/gcc-avr -o $(obj) $(asm)
 #	avr-ld -e RESET -nostartfiles -o $(elf) $(obj)
 
 $(hex): $(elf)
 	avr-objcopy -j .text -j .data -O ihex $(elf) $(hex)
 
 upload: $(hex)
-	make -f ${HOME}/atmega/lib/make/upload name=$(name)
+	make -f $(atmega_path)/lib/make/upload name=$(name)
 
 clean:
 	rm -rf tmp

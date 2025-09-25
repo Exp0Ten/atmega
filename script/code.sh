@@ -12,6 +12,8 @@ fi
 
 name=${name%.*}
 
+atmega_path=$(dirname $(dirname $0))
+
 case "$1" in
     "switch")
         echo $name > .target
@@ -21,11 +23,11 @@ case "$1" in
     "target")
         echo $name > .target
         echo "Switching .target => $name"
-        make -f $HOME/atmega/lib/make/makefile-avra name=$name
+        make -f $atmega_path/lib/make/makefile-avra name=$name
         exit 0
         ;;
     *)
         ;;
 esac
 
-make -f $HOME/atmega/lib/make/makefile-avr-gcc name=$name $1
+make -f $atmega_path/lib/make/makefile-avr-gcc name=$name $1

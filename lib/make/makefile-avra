@@ -1,5 +1,7 @@
 name = ""
 
+atmega_path := $(shell dirname $(shell dirname $(dir $(realpath $(lastword $(MAKEFILE_LIST))))))
+
 asm = $(name).asm
 hex = tmp/$(name)/$(name).hex
 eep = tmp/$(name)/$(name).eep.hex
@@ -10,11 +12,11 @@ all: $(hex)
 
 $(hex): $(asm)
 	@mkdir tmp/$(name) -p
-	avra -I ${HOME}/atmega/lib/avra -l $(list) -m $(map) -o $(hex) -e $(eep) $(asm)
+	avra -I $(atmega_path)/lib/avra -l $(list) -m $(map) -o $(hex) -e $(eep) $(asm)
 	@mv $(name).obj tmp/$(name)/$(name).obj
 
 upload: $(hex)
-	make -f ${HOME}/atmega/lib/make/upload name=$(name)
+	make -f $(atmega_path)/lib/make/upload name=$(name)
 
 clean:
 	rm -rf tmp
