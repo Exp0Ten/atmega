@@ -22,9 +22,10 @@ root_lookup() {
     exit 1
 }
 
+atmega_path=$(dirname $(dirname $0))
 
-add_build $HOME/atmega/avra $HOME/atmega/script/avra.sh
-add_build $HOME/atmega/asm $HOME/atmega/script/asm.sh
-add_build $HOME/atmega/code $HOME/atmega/script/code.sh
+add_build $atmega_path/avra $atmega_path/script/avra.sh
+add_build $atmega_path/asm $atmega_path/script/asm.sh
+add_build $atmega_path/code $atmega_path/script/code.sh
 
 root_lookup $@
